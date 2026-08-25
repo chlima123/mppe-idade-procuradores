@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idade dos Procuradores de Justiça — MPPE</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f4f6fa; color: #222; padding: 24px; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; color: #0b3d91; margin-bottom: 4px; }
+  .sub { color: #666; font-size: .9rem; margin-bottom: 20px; }
+  .updated { color: #999; font-size: .8rem; margin-bottom: 20px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 14px; margin-bottom: 24px; }
+  .card { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .card-title { font-weight: 700; font-size: .95rem; margin-bottom: 12px; }
+  .stats { display: flex; flex-direction: column; gap: 8px; }
+  .stat { display: flex; justify-content: space-between; align-items: baseline; }
+  .stat .val { font-size: 1.15rem; font-weight: 700; }
+  .stat .lbl { font-size: .8rem; color: #777; }
+  .filters { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .filters button { padding: 8px 14px; border-radius: 20px; border: 1px solid #ccc; background: #fff; cursor: pointer; font-size: .85rem; }
+  .filters button.active { background: #0b3d91; color: #fff; border-color: #0b3d91; }
+  .table-card { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th { background: #0b3d91; color: #fff; text-align: left; padding: 12px; }
+  td { padding: 10px 12px; border-bottom: 1px solid #eee; }
+  tr:hover td { background: #f0f4ff; }
+  .pill { padding: 2px 10px; border-radius: 12px; font-size: .75rem; font-weight: 600; }
+  .idade { text-align: right; }
+  .footer { margin-top: 24px; font-size: .78rem; color: #999; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Idade dos Procuradores de Justiça do MPPE</h1>
+  <div class="sub">Distribuição por atuação · Fonte: Lista de Antiguidade 2ª Instância (31/07/2026) + Colégio de Procuradores (portal MPPE)</div>
+  <div class="updated">Atualizado em: 25/08/2026</div>
+
+  <div class="cards">
+    
+    <div class="card" style="border-top:4px solid #1565c0">
+      <div class="card-title">🔵 Criminais — Capital</div>
+      <div class="stats">
+        <div class="stat"><span class="val">26</span><span class="lbl">Procuradores</span></div>
+        <div class="stat"><span class="val">66.2</span><span class="lbl">Média</span></div>
+        <div class="stat"><span class="val">67.5</span><span class="lbl">Mediana</span></div>
+        <div class="stat"><span class="val">69 anos e 72 anos</span><span class="lbl">Moda</span></div>
+        <div class="stat"><span class="val">54–75</span><span class="lbl">Faixa</span></div>
+      </div>
+    </div>
+    
+    <div class="card" style="border-top:4px solid #2e7d32">
+      <div class="card-title">🟢 Cíveis — Capital</div>
+      <div class="stats">
+        <div class="stat"><span class="val">23</span><span class="lbl">Procuradores</span></div>
+        <div class="stat"><span class="val">62.5</span><span class="lbl">Média</span></div>
+        <div class="stat"><span class="val">62.0</span><span class="lbl">Mediana</span></div>
+        <div class="stat"><span class="val">57 anos e 58 anos</span><span class="lbl">Moda</span></div>
+        <div class="stat"><span class="val">54–74</span><span class="lbl">Faixa</span></div>
+      </div>
+    </div>
+    
+    <div class="card" style="border-top:4px solid #ef6c00">
+      <div class="card-title">🟠 Caruaru</div>
+      <div class="stats">
+        <div class="stat"><span class="val">8</span><span class="lbl">Procuradores</span></div>
+        <div class="stat"><span class="val">60.5</span><span class="lbl">Média</span></div>
+        <div class="stat"><span class="val">55.5</span><span class="lbl">Mediana</span></div>
+        <div class="stat"><span class="val">55 anos</span><span class="lbl">Moda</span></div>
+        <div class="stat"><span class="val">54–74</span><span class="lbl">Faixa</span></div>
+      </div>
+    </div>
+    <div class="card" style="border-top:4px solid #0b3d91">
+      <div class="card-title">🧑‍⚖️ Total</div>
+      <div class="stats">
+        <div class="stat"><span class="val">57</span><span class="lbl">Procuradores</span></div>
+        <div class="stat"><span class="val">63.9</span><span class="lbl">Média</span></div>
+        <div class="stat"><span class="val">63.0</span><span class="lbl">Mediana</span></div>
+        <div class="stat"><span class="val">69 anos</span><span class="lbl">Moda</span></div>
+        <div class="stat"><span class="val">54–75</span><span class="lbl">Faixa</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters" id="filters">
+    <button data-f="todos" class="active">Todos (57)</button>
+    <button data-f="CRIMINAL">🔵 Criminais (26)</button>
+    <button data-f="CIVEL">🟢 Cíveis (23)</button>
+    <button data-f="CARUARU">🟠 Caruaru (8)</button>
+  </div>
+
+  <div class="table-card">
+    <table id="tabela">
+      <thead>
+        <tr><th>Procurador(a) de Justiça</th><th>Nascimento</th><th>Atuação</th><th style="text-align:right">Idade</th></tr>
+      </thead>
+      <tbody>
+        <tr data-grupo="CRIMINAL">
+      <td>ADALBERTO MENDES PINTO VIEIRA</td>
+      <td>27/01/1961</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>65</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>ADRIANA GONCALVES FONTES</td>
+      <td>10/06/1954</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>72</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>AGUINALDO FENELON DE BARROS</td>
+      <td>17/04/1955</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>71</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>ALDA VIRGINIA DE MOURA</td>
+      <td>04/04/1960</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>66</strong></td>
+    </tr><tr data-grupo="CARUARU">
+      <td>ANA JOEMIA MARQUES DA ROCHA</td>
+      <td>30/11/1969</td>
+      <td><span class="pill" style="background:#ef6c0022;color:#ef6c00;border:1px solid #ef6c0055">Caruaru</span></td>
+      <td class="idade"><strong>56</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>ANDREA FERNANDES NUNES PADILHA</td>
+      <td>24/11/1971</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>54</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>ANDREA KARLA MARANHAO CONDE FREIRE</td>
+      <td>25/12/1968</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>57</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>ANTONIO CARLOS DE OLIVEIRA CAVALCANTI</td>
+      <td>03/08/1951</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>75</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>AUREA ROSANE VIEIRA</td>
+      <td>19/03/1967</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>59</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>CARLOS ALBERTO PEREIRA VITORIO</td>
+      <td>28/12/1955</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>70</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>CARLOS ROBERTO SANTOS</td>
+      <td>22/02/1968</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>58</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>CHARLES HAMILTON DOS SANTOS LIMA</td>
+      <td>23/04/1971</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>55</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>CHRISTIANE ROBERTA GOMES DE FARIAS SANTOS</td>
+      <td>22/09/1967</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>58</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>CRISTIANE DE GUSMAO MEDEIROS</td>
+      <td>12/05/1966</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>60</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>EDSON JOSE GUERRA</td>
+      <td>02/03/1956</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>70</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>EDUARDO LUIZ SILVA CAJUEIRO</td>
+      <td>10/11/1962</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>63</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>ELEONORA DE SOUZA LUNA</td>
+      <td>03/12/1956</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>69</strong></td>
+    </tr><tr data-grupo="CARUARU">
+      <td>EVA REGINA DE ALBUQUERQUE BRASIL</td>
+      <td>06/01/1954</td>
+      <td><span class="pill" style="background:#ef6c0022;color:#ef6c00;border:1px solid #ef6c0055">Caruaru</span></td>
+      <td class="idade"><strong>72</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>FERNANDO BARROS DE LIMA</td>
+      <td>21/05/1952</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>74</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>FRANCISCO SALES DE ALBUQUERQUE</td>
+      <td>15/02/1961</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>65</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>GERALDO DOS ANJOS NETTO DE MENDONCA JUNIOR</td>
+      <td>14/09/1954</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>71</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>GIANI MARIA DO MONTE SANTOS RODOLFO DE MELO</td>
+      <td>05/05/1972</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>54</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>GILSON ROBERTO DE MELO BARBOSA</td>
+      <td>09/03/1964</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>62</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>HELIO JOSE DE CARVALHO XAVIER</td>
+      <td>19/10/1966</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>59</strong></td>
+    </tr><tr data-grupo="CARUARU">
+      <td>HELOISA POLLYANNA BRITO DE FRITAS</td>
+      <td>18/11/1970</td>
+      <td><span class="pill" style="background:#ef6c0022;color:#ef6c00;border:1px solid #ef6c0055">Caruaru</span></td>
+      <td class="idade"><strong>55</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>IZABEL CRISTINA DE NOVAES DE SOUZA SANTOS</td>
+      <td>26/02/1952</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>74</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>JOAO ANTONIO DE ARAUJO FREITAS HENRIQUES</td>
+      <td>13/08/1956</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>70</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>JOSE CORREIA DE ARAUJO</td>
+      <td>28/11/1958</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>67</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>JOSE ELIAS DUBARD DE MOURA ROCHA</td>
+      <td>15/08/1964</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>62</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>JOSE LOPES DE OLIVEIRA FILHO</td>
+      <td>19/09/1956</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>69</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>LAIS COELHO TEIXEIRA CAVALCANTI</td>
+      <td>03/09/1956</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>69</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>LAISE TARCILA ROSA DE QUEIROZ</td>
+      <td>27/08/1960</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>65</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>LILIANE DA FONSECA LIMA ROCHA</td>
+      <td>04/06/1957</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>69</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>LUCIA DE ASSIS</td>
+      <td>11/08/1962</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>64</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>LUCIANA DE BRAGA VAZ DA COSTA</td>
+      <td>09/03/1965</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>61</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>LUCIANA MARINHO MARTINS MOTA E ALBUQUERQUE</td>
+      <td>05/09/1962</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>63</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>LUCILA VAREJAO DIAS MARTINS</td>
+      <td>30/10/1968</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>57</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>MARCO AURELIO FARIAS DA SILVA</td>
+      <td>13/04/1965</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>61</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>MARIA DA GLORIA GONCALVES SANTOS</td>
+      <td>21/09/1955</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>70</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>MARIA IVANA BOTELHO VIEIRA DA SILVA</td>
+      <td>25/10/1968</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>57</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>MARILEA DE SOUZA CORREIA ANDRADE</td>
+      <td>13/06/1960</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>66</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>MARIO GERMANO PALHA RAMOS</td>
+      <td>05/08/1952</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>74</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>NELMA RAMOS MACIEL QUAIOTTI</td>
+      <td>08/08/1964</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>62</strong></td>
+    </tr><tr data-grupo="CARUARU">
+      <td>NORMA DA MOTA SALES LIMA</td>
+      <td>12/07/1963</td>
+      <td><span class="pill" style="background:#ef6c0022;color:#ef6c00;border:1px solid #ef6c0055">Caruaru</span></td>
+      <td class="idade"><strong>63</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>NORMA MENDONCA GALVAO DE CARVALHO</td>
+      <td>30/03/1954</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>72</strong></td>
+    </tr><tr data-grupo="CARUARU">
+      <td>PATRICIA CARNEIRO TAVARES</td>
+      <td>18/05/1971</td>
+      <td><span class="pill" style="background:#ef6c0022;color:#ef6c00;border:1px solid #ef6c0055">Caruaru</span></td>
+      <td class="idade"><strong>55</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>RENATO DA SILVA FILHO</td>
+      <td>13/12/1953</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>72</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>RICARDO LAPENDA FIGUEIROA</td>
+      <td>18/03/1957</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>69</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>RICARDO VAN DER LINDEN DE VASCONCELOS COELHO</td>
+      <td>27/06/1964</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>62</strong></td>
+    </tr><tr data-grupo="CARUARU">
+      <td>ROSA MARIA SALVI DA CARVALHEIRA</td>
+      <td>21/11/1971</td>
+      <td><span class="pill" style="background:#ef6c0022;color:#ef6c00;border:1px solid #ef6c0055">Caruaru</span></td>
+      <td class="idade"><strong>54</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>SILVIO JOSE MENEZES TAVARES</td>
+      <td>01/11/1969</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>56</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>SINEIDE MARIA DE BARROS SILVA CANUTO</td>
+      <td>27/09/1957</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>68</strong></td>
+    </tr><tr data-grupo="CARUARU">
+      <td>SONIA MARA ROCHA CARNEIRO</td>
+      <td>11/01/1952</td>
+      <td><span class="pill" style="background:#ef6c0022;color:#ef6c00;border:1px solid #ef6c0055">Caruaru</span></td>
+      <td class="idade"><strong>74</strong></td>
+    </tr><tr data-grupo="CARUARU">
+      <td>TATIANA DE SOUZA LEAO ARAUJO ANTUNES</td>
+      <td>02/06/1971</td>
+      <td><span class="pill" style="background:#ef6c0022;color:#ef6c00;border:1px solid #ef6c0055">Caruaru</span></td>
+      <td class="idade"><strong>55</strong></td>
+    </tr><tr data-grupo="CRIMINAL">
+      <td>ULISSES DE ARAUJO E SA JUNIOR</td>
+      <td>31/10/1969</td>
+      <td><span class="pill" style="background:#1565c022;color:#1565c0;border:1px solid #1565c055">Criminal</span></td>
+      <td class="idade"><strong>56</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>VALDIR BARBOSA JUNIOR</td>
+      <td>05/09/1967</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>58</strong></td>
+    </tr><tr data-grupo="CIVEL">
+      <td>YELENA DE FATIMA MONTEIRO ARAUJO</td>
+      <td>13/05/1969</td>
+      <td><span class="pill" style="background:#2e7d3222;color:#2e7d32;border:1px solid #2e7d3255">Cível</span></td>
+      <td class="idade"><strong>57</strong></td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">Gerado por Hermes Agent · Atualização automática a cada 2 meses · Não substitui fonte oficial</div>
+</div>
+
+<script>
+  const btns = document.querySelectorAll('#filters button');
+  const rows = document.querySelectorAll('#tabela tbody tr');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.f;
+      rows.forEach(row => {
+        row.style.display = (f === 'todos' || row.dataset.grupo === f) ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>
